@@ -13,18 +13,44 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var urlTextField: UITextField!
+    @IBOutlet weak var responseProgressView: UIProgressView!
+    
+    var responseDone: Bool?
+    var progressTimer: Timer?
     
     @IBAction func refresh(_ sender: Any) {
         webView.reload()
     }
     
+    @objc func progressTimerCallback() {
+        if responseDone! {
+            if responseProgressView.progress >= 1 {
+                progressTimer!.invalidate()
+            } else {
+                responseProgressView.progress += 0.1
+            }
+        } else {
+            if responseProgressView.progress >= 0.95 {
+                responseProgressView.progress = 0.95
+            } else {
+                responseProgressView.progress += 0.01
+            }
+        }
+    }
+    
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         urlTextField.text = webView.url?.absoluteString
+        
+        // response progress view
+        responseProgressView.progress = 0.0
+        responseDone = false
+        progressTimer = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(progressTimerCallback), userInfo: nil, repeats: true)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        responseDone = true
     }
     
     func registerSettingsBundle() {
@@ -63,7 +89,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         registerSettingsBundle()
         updateDisplayFromDefaults()
         
-//        NSNotification.addObserver(NSuser, forKeyPath: "defaultsChanged")
         NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
     }
 

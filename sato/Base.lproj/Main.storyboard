@@ -46,11 +46,19 @@
                                             <constraint firstItem="AKc-c6-SCR" firstAttribute="leading" secondItem="vpK-3u-MyJ" secondAttribute="leading" constant="10" id="cvt-Bm-yR9"/>
                                         </constraints>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vve-GU-Lp8">
+                                        <rect key="frame" x="0.0" y="40" width="768" height="2"/>
+                                        <subviews>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LDO-84-UDq">
+                                                <rect key="frame" x="0.0" y="0.0" width="768" height="2"/>
+                                            </progressView>
+                                        </subviews>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IFi-18-1bd">
-                                        <rect key="frame" x="0.0" y="40" width="768" height="914"/>
+                                        <rect key="frame" x="0.0" y="42" width="768" height="912"/>
                                         <subviews>
                                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFT-mf-X7j">
-                                                <rect key="frame" x="0.0" y="0.0" width="768" height="914"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="768" height="912"/>
                                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <wkWebViewConfiguration key="configuration">
                                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -60,6 +68,10 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="vve-GU-Lp8" firstAttribute="leading" secondItem="QpV-JL-p5p" secondAttribute="leading" constant="20" id="3qq-vg-J8t"/>
+                                    <constraint firstAttribute="trailing" secondItem="vve-GU-Lp8" secondAttribute="trailing" constant="50" id="i6L-Js-TMw"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -74,6 +86,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="responseProgressView" destination="LDO-84-UDq" id="Dum-ox-MLS"/>
                         <outlet property="urlTextField" destination="AKc-c6-SCR" id="Jxo-6Z-YaA"/>
                         <outlet property="webView" destination="AFT-mf-X7j" id="q5S-Rz-lhc"/>
                     </connections>
