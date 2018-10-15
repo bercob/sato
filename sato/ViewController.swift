@@ -17,9 +17,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     var responseDone: Bool?
     var progressTimer: Timer?
+    var responseTimer: Timer?
     
     @IBAction func refresh(_ sender: Any) {
         webView.reload()
+    }
+    
+    @objc func responseTimerCallback() {
+        webView.stopLoading()
+        responseFinished()
+        NSLog("response timeout")
     }
     
     @objc func progressTimerCallback() {
@@ -38,9 +45,18 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
+    func responseFinished() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        responseDone = true
+        responseTimer?.invalidate()
+    }
+    
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         urlTextField.text = webView.url?.absoluteString
+        
+        // response timeout
+        responseTimer = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(responseTimerCallback), userInfo: nil, repeats: false)
         
         // response progress view
         responseProgressView.progress = 0.0
@@ -49,12 +65,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        responseDone = true
+        responseFinished()
     }
     
-    func registerSettingsBundle() {
+    func registerAndObserveSettingsBundle() {
         UserDefaults.standard.register(defaults: [String:AnyObject]())
+        NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
     }
     
     func url() -> String {
@@ -80,16 +96,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
     override func loadView() {
         super.loadView()
         webView.navigationDelegate = self
-        urlTextField.isEnabled = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        registerSettingsBundle()
+        registerAndObserveSettingsBundle()
         updateDisplayFromDefaults()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
     }
 
 }
