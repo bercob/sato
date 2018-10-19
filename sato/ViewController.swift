@@ -15,18 +15,28 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var urlTextField: UITextField!
     @IBOutlet weak var responseProgressView: UIProgressView!
     
+    let ResponseTimeout: Double = 20
+    
     var responseDone: Bool?
     var progressTimer: Timer?
     var responseTimer: Timer?
+    var currentEnvironment: String?
+    
+    func showAlert(alertMessage: String) {
+        let alert = UIAlertController(title: "Alert", message: alertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     @IBAction func refresh(_ sender: Any) {
         webView.reload()
     }
     
     @objc func responseTimerCallback() {
+        NSLog("\(urlTextField.text ?? "unknown") url response timeout after \(String(ResponseTimeout)) s")
         webView.stopLoading()
         responseFinished()
-        NSLog("response timeout")
+        showAlert(alertMessage: "Response timeout.")
     }
     
     @objc func progressTimerCallback() {
@@ -56,7 +66,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         urlTextField.text = webView.url?.absoluteString
         
         // response timeout
-        responseTimer = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(responseTimerCallback), userInfo: nil, repeats: false)
+        responseTimer = Timer.scheduledTimer(timeInterval: ResponseTimeout, target: self, selector: #selector(responseTimerCallback), userInfo: nil, repeats: false)
         
         // response progress view
         responseProgressView.progress = 0.0
@@ -73,8 +83,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
     }
     
-    func url() -> String {
-        let environment = UserDefaults.standard.string(forKey: "environment")
+    func url(environment: String) -> String {
         switch environment {
         case "dit2":
             return "https://tabletsato21.apptest.slsp.sk"
@@ -86,11 +95,17 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
     func updateDisplayFromDefaults() {
-        webView.load(URLRequest(url: URL(string: url())!))
+        let environment = UserDefaults.standard.string(forKey: "environment")
+        if (environment != currentEnvironment) {
+            currentEnvironment = environment
+            webView.load(URLRequest(url: URL(string: url(environment: environment!))!))
+        }
     }
     
-    @objc func defaultsChanged() {
-        updateDisplayFromDefaults()
+    @objc func defaultsChanged(notification: NSNotification) {
+        if (notification.object as? UserDefaults) != nil {
+            updateDisplayFromDefaults()
+        }
     }
     
     override func loadView() {
