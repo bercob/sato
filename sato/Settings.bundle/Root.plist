@@ -10,6 +10,7 @@
 			<key>Values</key>
 			<array>
 				<string>test</string>
+				<string>demo</string>
 				<string>dit2</string>
 				<string>uat2</string>
 			</array>
@@ -18,6 +19,7 @@
 			<key>Titles</key>
 			<array>
 				<string>test</string>
+				<string>demo</string>
 				<string>DIT2</string>
 				<string>UAT2</string>
 			</array>

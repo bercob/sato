@@ -85,6 +85,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     func url(environment: String) -> String {
         switch environment {
+        case "demo":
+            return "https://sporomatdemo5.apptest.slsp.sk"
         case "dit2":
             return "https://tabletsato21.apptest.slsp.sk"
         case "uat2":
@@ -95,10 +97,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
     func updateDisplayFromDefaults() {
-        let environment = UserDefaults.standard.string(forKey: "environment")
+        let environment = UserDefaults.standard.string(forKey: "environment") ?? "test"
         if (environment != currentEnvironment) {
             currentEnvironment = environment
-            webView.load(URLRequest(url: URL(string: url(environment: environment!))!))
+            webView.load(URLRequest(url: URL(string: url(environment: environment))!))
         }
     }
     
