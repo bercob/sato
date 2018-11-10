@@ -9,13 +9,13 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, WKNavigationDelegate {
+class ViewController: UIViewController, WKUIDelegate, WKNavigationDelegate {
 
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var urlTextField: UITextField!
     @IBOutlet weak var responseProgressView: UIProgressView!
     
-    let ResponseTimeout: Double = 20
+    let ResponseTimeout: Double = 30
     
     var responseDone: Bool?
     var progressTimer: Timer?
@@ -63,7 +63,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        urlTextField.text = webView.url?.absoluteString
+        showUrl()
         
         // response timeout
         responseTimer = Timer.scheduledTimer(timeInterval: ResponseTimeout, target: self, selector: #selector(responseTimerCallback), userInfo: nil, repeats: false)
@@ -76,6 +76,69 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         responseFinished()
+    }
+    
+    func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+        showUrl()
+    }
+    
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo,
+                 completionHandler: @escaping () -> Void) {
+        
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "OK button"), style: .default, handler: { (action) in
+            completionHandler()
+        }))
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo,
+                 completionHandler: @escaping (Bool) -> Void) {
+        
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "OK button"), style: .default, handler: { (action) in
+            completionHandler(true)
+        }))
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button"), style: .default, handler: { (action) in
+            completionHandler(false)
+        }))
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo,
+                 completionHandler: @escaping (String?) -> Void) {
+        
+        let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) in
+            textField.text = defaultText
+        }
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "OK button"), style: .default, handler: { (action) in
+            if let text = alertController.textFields?.first?.text {
+                completionHandler(text)
+            } else {
+                completionHandler(defaultText)
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button"), style: .default, handler: { (action) in
+            completionHandler(nil)
+        }))
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    // open target = "_blank" in default browser
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            UIApplication.shared.open(navigationAction.request.url!, options: [:])
+        }
+        return nil
     }
     
     func registerAndObserveSettingsBundle() {
@@ -96,12 +159,17 @@ class ViewController: UIViewController, WKNavigationDelegate {
             return "https://www.google.com"
         }
     }
+    
     func updateDisplayFromDefaults() {
         let environment = UserDefaults.standard.string(forKey: "environment") ?? "test"
         if (environment != currentEnvironment) {
             currentEnvironment = environment
             webView.load(URLRequest(url: URL(string: url(environment: environment))!))
         }
+    }
+    
+    func showUrl() {
+        urlTextField.text = webView.url?.absoluteString
     }
     
     @objc func defaultsChanged(notification: NSNotification) {
@@ -112,6 +180,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     override func loadView() {
         super.loadView()
+        webView.uiDelegate = self
         webView.navigationDelegate = self
     }
     
