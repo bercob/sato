@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:sato.xcodeproj">
+      location = "self:/Users/berco/Documents/xcode_projects/satoapp/satoapp.xcodeproj">
    </FileRef>
 </Workspace>

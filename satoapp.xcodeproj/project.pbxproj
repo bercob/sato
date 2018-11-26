@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		24F446A8216FEF48001A5DD5 /* sato.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sato.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		24F446A8216FEF48001A5DD5 /* satoapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = satoapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F446AB216FEF48001A5DD5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		24F446AD216FEF48001A5DD5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		24F446B0216FEF48001A5DD5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -40,7 +40,7 @@
 		24F4469F216FEF48001A5DD5 = {
 			isa = PBXGroup;
 			children = (
-				24F446AA216FEF48001A5DD5 /* sato */,
+				24F446AA216FEF48001A5DD5 /* satoapp */,
 				24F446A9216FEF48001A5DD5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,12 +48,12 @@
 		24F446A9216FEF48001A5DD5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				24F446A8216FEF48001A5DD5 /* sato.app */,
+				24F446A8216FEF48001A5DD5 /* satoapp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		24F446AA216FEF48001A5DD5 /* sato */ = {
+		24F446AA216FEF48001A5DD5 /* satoapp */ = {
 			isa = PBXGroup;
 			children = (
 				24F446AB216FEF48001A5DD5 /* AppDelegate.swift */,
@@ -64,15 +64,15 @@
 				24F446B7216FEF49001A5DD5 /* Info.plist */,
 				24F446BD217098DD001A5DD5 /* Settings.bundle */,
 			);
-			path = sato;
+			path = satoapp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		24F446A7216FEF48001A5DD5 /* sato */ = {
+		24F446A7216FEF48001A5DD5 /* satoapp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 24F446BA216FEF49001A5DD5 /* Build configuration list for PBXNativeTarget "sato" */;
+			buildConfigurationList = 24F446BA216FEF49001A5DD5 /* Build configuration list for PBXNativeTarget "satoapp" */;
 			buildPhases = (
 				24F446A4216FEF48001A5DD5 /* Sources */,
 				24F446A5216FEF48001A5DD5 /* Frameworks */,
@@ -82,9 +82,9 @@
 			);
 			dependencies = (
 			);
-			name = sato;
+			name = satoapp;
 			productName = sato;
-			productReference = 24F446A8216FEF48001A5DD5 /* sato.app */;
+			productReference = 24F446A8216FEF48001A5DD5 /* satoapp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -102,7 +102,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 24F446A3216FEF48001A5DD5 /* Build configuration list for PBXProject "sato" */;
+			buildConfigurationList = 24F446A3216FEF48001A5DD5 /* Build configuration list for PBXProject "satoapp" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -115,7 +115,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				24F446A7216FEF48001A5DD5 /* sato */,
+				24F446A7216FEF48001A5DD5 /* satoapp */,
 			);
 		};
 /* End PBXProject section */
@@ -289,7 +289,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 8QS5B6RYEE;
-				INFOPLIST_FILE = sato/Info.plist;
+				INFOPLIST_FILE = satoapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -310,7 +310,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 8QS5B6RYEE;
-				INFOPLIST_FILE = sato/Info.plist;
+				INFOPLIST_FILE = satoapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -327,7 +327,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		24F446A3216FEF48001A5DD5 /* Build configuration list for PBXProject "sato" */ = {
+		24F446A3216FEF48001A5DD5 /* Build configuration list for PBXProject "satoapp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				24F446B8216FEF49001A5DD5 /* Debug */,
@@ -336,7 +336,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		24F446BA216FEF49001A5DD5 /* Build configuration list for PBXNativeTarget "sato" */ = {
+		24F446BA216FEF49001A5DD5 /* Build configuration list for PBXNativeTarget "satoapp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				24F446BB216FEF49001A5DD5 /* Debug */,
